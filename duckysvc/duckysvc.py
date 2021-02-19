@@ -40,21 +40,12 @@ class DuckySvc:
 	
 	async def handle_client(self, ws, path):
 		try:
-			print('Client connected!')
+			#print('Client connected!')
 			while True:
-				data = await ws.recv()
-				print('DATA')
-				print(data)
-				source = data
-				#for line in data:
-				#	if line == '':
-				#		continue
-				#	source += data
-				print('source')
-				print(repr(source))
+				source = await ws.recv()
+				#print('source')
+				#print(source)
 				result = DuckEncoder.generatePayload(source, self.lang)
-				print('result')
-				print(repr(result))
 				await self.in_q.put(result)
 
 
