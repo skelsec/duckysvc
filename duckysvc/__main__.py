@@ -5,6 +5,7 @@ from duckysvc.duckysvc import DuckySvc
 async def amain(args):
 	try:
 		dsvc = DuckySvc(args.server_ip, args.server_port, lang = args.lang, keyboard_device = args.device)
+		print('DuckySvc running %s:%s' % (args.server_ip, args.server_port))
 		await dsvc.run()
 	except:
 		traceback.print_exc('Error in ducksvc amain')
