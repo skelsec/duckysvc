@@ -1,1 +1,1 @@
-recursive-include external *
+recursive-include duckysvc/external/duckencoder/resources *
