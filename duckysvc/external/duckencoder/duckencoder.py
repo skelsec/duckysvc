@@ -368,7 +368,10 @@ class DuckEncoder:
 
         @staticmethod
         def pwd():
-                return os.path.dirname(__file__) or "."
+                cwd = os.path.dirname(__file__)
+                if cwd:
+                        return cwd + '/external/duckencoder'
+                return "./external/duckencoder"
 
         @staticmethod
         def generatePayload(source, lang):
