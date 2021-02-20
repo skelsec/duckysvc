@@ -210,9 +210,9 @@ class DuckEncoder:
         @staticmethod
         def delay2USBBytes(delay):
                 result = ""
-                count = delay / 255
+                count = delay // 255
                 remain = delay % 255
-                for i in range(count):
+                for _ in range(count):
                         result += "\x00\xFF"
                 result += "\x00" + chr(remain)
                 return result

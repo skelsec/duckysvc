@@ -6,7 +6,7 @@ import websockets
 
 
 class DuckySvc:
-	def __init__(self, listen_ip, listen_port, ssl_ctx = None, lang = 'us', keyboard_device = '/dev/hidg1'):
+	def __init__(self, listen_ip, listen_port, ssl_ctx = None, lang = 'us', keyboard_device = '/dev/hidg0'):
 		self.lang = lang
 		self.listen_ip = listen_ip
 		self.listen_port = listen_port
