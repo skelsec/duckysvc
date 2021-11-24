@@ -31,14 +31,22 @@ class DuckyTyper:
 
 	def run(self):
 		try:
+			default_delay = 0
 			close_file = False
 			if isinstance(self.input_file, str):
 				self.input_file = open(self.input_file, 'r')
 				close_file = True
 
 			for line in self.input_file:
+				if line.upper().startswith('DEFAULT_DELAY'):
+					default_delay = float(line[len('DEFAULT_DELAY '):]) / 1000
+					continue
+				if line.upper().startswith('DELAY'):
+					time.sleep(float(line[len('DELAY '):]) / 1000)
+					continue
 				result = DuckEncoder.generatePayload(line, self.language)
 				self.keyboard_typer(result)
+				time.sleep(default_delay)
 		except Exception as e:
 			traceback.print_exc('main error!')
 		finally:
