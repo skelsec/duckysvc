@@ -55,6 +55,7 @@ setup(
 	entry_points={
 		'console_scripts': [
 			'duckysvc = duckysvc.__main__:main',
+			'duckytyper = duckysvc.duckytyper:main',
 		],
 	}
 )
