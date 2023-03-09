@@ -1,7 +1,7 @@
 import asyncio
 import traceback
 from duckysvc.external.duckencoder.duckencoder import DuckEncoder
-
+import json
 import websockets
 
 
@@ -42,12 +42,31 @@ class DuckySvc:
 		try:
 			#print('Client connected!')
 			while True:
-				source = await ws.recv()
-				#print('source')
-				#print(source)
-				result = DuckEncoder.generatePayload(source, self.lang)
-				await self.in_q.put(result)
+				data = await ws.recv()
+				source = json.loads(data)
+				language = source.get('language', self.lang)
+				if language is None:
+					language = self.lang
+				text = source.get('text', None)
+				if text is None:
+					await ws.send(json.dumps({
+						'result': 'ERROR',
+						'error': 'text missing from request'}))
+					continue
+				if language is None:
+					await ws.send(json.dumps({
+						'result': 'ERROR',
+						'error': 'language missing from request'}))
+					continue
 
+				result = DuckEncoder.generatePayload(source['text'], language)
+				if self.keyboard_device is None:
+					await ws.send(json.dumps({
+						'result': 'ERROR',
+						'error': 'No HID device is configured!'}))
+					continue
+				await self.in_q.put(result)
+				await ws.send(json.dumps({'result': 'OK'}))
 
 		except Exception as e:
 			traceback.print_exc('handle_client')
