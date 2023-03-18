@@ -4,7 +4,7 @@ import json
 from duckysvc.duckysvc import DuckySvc
 
 async def amain():
-	dsvc = DuckySvc('localhost', 11112, lang = 'us', keyboard_device = None)
+	dsvc = DuckySvc('localhost', 11112, lang = 'us', keyboard_device = 'test')
 	asyncio.create_task(dsvc.run())
 	await asyncio.sleep(1)
 	uri = "ws://localhost:11112"
@@ -35,6 +35,14 @@ async def amain():
 		data = json.dumps({
 			'language': 'us',
 			'text': 'STRING hello world!\r\nENTER'
+		})
+		await websocket.send(data)
+		resp = await websocket.recv()
+		print(json.loads(resp))
+
+		data = json.dumps({
+			'language': 'us',
+			'text': 'STRING hello world!'
 		})
 		await websocket.send(data)
 		resp = await websocket.recv()
